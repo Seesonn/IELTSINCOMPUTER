@@ -758,7 +758,7 @@ export default function ReadingPage() {
 
       <div style={{fontFamily:"Arial, sans-serif",height:"100vh",display:"flex",flexDirection:"column",background:"#fff",fontSize:15,color:"#000"}}>
 
-        {/* ═══ TOP BAR — design.txt exact ═══ */}
+        {/* ═══ TOP BAR  ═══ */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid #ccc",padding:"0 20px",height:52,flexShrink:0,background:"#fff"}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <img src={ieltsLogo} alt="IELTS" style={{height:28,width:'auto'}} />
