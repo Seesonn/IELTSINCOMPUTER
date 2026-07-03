@@ -8,11 +8,11 @@ import { LoadingScreen, StartOverlay } from '../components/ui'
 import toast from 'react-hot-toast'
 import {
   Star, Flag, ChevronLeft, ChevronRight,
-  Highlighter, Underline as UnderlineIcon, X,
-  AlertCircle,
+  Highlighter, Underline as UnderlineIcon, X, Send, Clock,
+  LayoutList, AlertCircle,
 } from 'lucide-react'
 import { ReadingIcon } from '../components/ExamIcons'
-import ieltsLogo from '../assets/hu.png'
+import ieltsLogo from '../assets/ielts.png'
 
 const escHtml = (t = '') =>
   t.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -33,7 +33,7 @@ function InlinePill({ value, onChange }) {
       onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
       style={{
         border: focused ? '2px solid #c8102e' : '1px solid #999',
-        borderRadius: 3, padding: '0px 8px', width: 180, fontSize: 15, fontWeight:600, color:'#000', outline: 'none',
+        borderRadius: 3, padding: '2px 6px', width: 80, fontSize: 15, fontWeight:700, color:'#000', outline: 'none',
         fontFamily: 'Arial, sans-serif',
       }}
       placeholder="" autoComplete="off" />
@@ -60,22 +60,22 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
     const opts = qType === "yes_no_ng" ? ['YES','NO','NOT GIVEN'] : ['TRUE','FALSE','NOT GIVEN']
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:12,fontSize:17,color:'#000',lineHeight:1.6}}>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:12,fontSize:15,color:'#000',lineHeight:1.6}}>
           {group.instruction}
         </div>
         {group.questions.map(q => (
           <div key={q.id} style={{marginBottom:16}}>
             <div style={{display:'flex',alignItems:'flex-start',gap:8,marginBottom:6}}>
-              <span style={{fontSize:15,fontWeight:800,color:'#000',flexShrink:0,marginRight:6}}>{q.question_number}</span>
-              <span style={{fontSize:17,lineHeight:1.6}}>{q.prompt}</span>
+              <span style={{background:'#e8e8e8',borderRadius:3,padding:'2px 8px',fontSize:14,fontWeight:700,color:'#000',flexShrink:0,marginTop:1}}>{q.question_number}</span>
+              <span style={{fontSize:15,lineHeight:1.6}}>{q.prompt}</span>
             </div>
             <div style={{marginLeft:32,display:'flex',flexDirection:'column',gap:6}}>
               {opts.map(o => (
-                <label key={o} style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',fontSize:15,background:answers[q.id] === o ? '#c8102e' : 'transparent',padding:'4px 8px',borderRadius:4,color:answers[q.id] === o ? '#fff' : '#000'}}>
+                <label key={o} style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',fontSize:14}}>
                   <input type="radio" name={q.id} value={o} checked={answers[q.id] === o}
                     onChange={() => setAnswer(q.id, answers[q.id] === o ? '' : o)}
-                    style={{accentColor:'#fff',width:15,height:15}} />
+                    style={{accentColor:'#c8102e',width:15,height:15}} />
                   {o}
                 </label>
               ))}
@@ -91,11 +91,12 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
     const noteTitle = group.extra_data?.note_title || ''
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:8,fontSize:15,color:'#000'}}>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:8,fontSize:14,color:'#000'}}>
           {group.instruction}
         </div>
-        {noteTitle && <div style={{fontWeight:700,fontSize:15,marginBottom:10}}>{noteTitle}</div>}
+        {noteTitle && <div style={{fontWeight:700,fontSize:14,marginBottom:10}}>{noteTitle}</div>}
+        {group.extra_data?.note_text && <div style={{fontSize:12,color:'#000',marginBottom:10,whiteSpace:'pre-line',padding:'8px 12px',background:'#f9f9f9',border:'1px dashed #ddd',borderRadius:4}}>{group.extra_data.note_text}</div>}
         <ul style={{paddingLeft:20,margin:0}}>
           {items.map(item => {
             const text = item.text || item.prompt || ''
@@ -103,7 +104,7 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
             const num = item.num || item.question_number
             const parts = text.split('___')
             return (
-              <li key={id} style={{marginBottom:10,fontSize:15,lineHeight:1.7}}>
+              <li key={id} style={{marginBottom:10,fontSize:14,lineHeight:1.7}}>
                 {parts.map((part, i) => (
                   <span key={i}>
                     {part}
@@ -111,7 +112,7 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
                       <span style={{display:'inline-flex',alignItems:'center',gap:4}}>
                         <input type="text" value={answers[id] || ''}
                           onChange={e => setAnswer(id, e.target.value)}
-                          style={{border:'1px solid #999',borderRadius:3,padding:'0px 8px',width:180,fontSize:15,fontWeight:600,color:'#000',outline:'none'}}
+                          style={{border:'1px solid #999',borderRadius:3,padding:'2px 6px',width:80,fontSize:15,fontWeight:700,color:'#000',outline:'none'}}
                           placeholder={String(num)} />
                       </span>
                     )}
@@ -135,10 +136,10 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
     }
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:10,fontSize:15,color:'#000'}}>{group.instruction}</div>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:10,fontSize:14,color:'#000'}}>{group.instruction}</div>
         <div style={{marginBottom:12}}>
-          <div style={{fontWeight:700,fontSize:14,marginBottom:6}}>List of Headings</div>
+          <div style={{fontWeight:700,fontSize:13,marginBottom:6}}>List of Headings</div>
           {headings.map((h, i) => {
             const roman = romans[i]
             const used = usedRomans.includes(roman)
@@ -150,7 +151,7 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
                   display:'inline-flex',alignItems:'center',gap:6,
                   border:`1px solid ${used ? '#ccc' : '#bbb'}`,
                   borderRadius:4,padding:'5px 12px',margin:'4px 6px 4px 0',
-                  fontSize:15,fontWeight:500,
+                  fontSize:14,fontWeight:500,
                   cursor: used ? 'default' : 'grab',
                   opacity: used ? 0.35 : 1,
                   background: used ? '#f5f5f5' : '#fff',
@@ -158,8 +159,8 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
                   boxShadow: used ? 'none' : '0 1px 2px rgba(0,0,0,0.06)',
                 }}>
                 <span style={{
-                  borderRadius:3,
-                  padding:'1px 6px',fontSize:12,fontWeight:800,color:'#000',
+                  background:'#e8e8e8',borderRadius:3,
+                  padding:'1px 6px',fontSize:11,fontWeight:700,color:'#000',
                   flexShrink:0,
                 }}>{roman}</span>
                 <span>{h}</span>
@@ -174,89 +175,35 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
   if (qType === "mcq_multi") {
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:15,marginBottom:4}}>Questions {qRange}</div>
-        <div style={{fontSize:14,marginBottom:12}}>Choose <strong>TWO</strong> correct answers.</div>
+        <div style={{fontWeight:700,fontSize:14,marginBottom:4}}>Questions {qRange}</div>
+        <div style={{fontSize:13,marginBottom:12}}>Choose <strong>TWO</strong> correct answers.</div>
         {group.subGroups.map(sg => {
           const key = `multi_${sg.ids[0]}_${sg.ids[1]}`
           const selected = answers[key] || []
           return (
             <div key={sg.id} style={{marginBottom:18}}>
-              <div style={{fontWeight:700,fontSize:14,marginBottom:6}}>
+              <div style={{fontWeight:700,fontSize:13,marginBottom:6}}>
                 {sg.qRange}&nbsp;{sg.prompt}
               </div>
               {sg.options.map((opt, i) => (
-                  <label key={i} style={{display:'flex',alignItems:'flex-start',gap:8,marginBottom:6,cursor:'pointer',fontSize:14,background:selected.includes(i) ? '#c8102e' : 'transparent',padding:'4px 8px',borderRadius:4,color:selected.includes(i) ? '#fff' : '#000'}}>
-                    <input type="checkbox" checked={selected.includes(i)}
-                      onChange={() => {
-                        const key = `multi_${sg.ids[0]}_${sg.ids[1]}`
-                        const current = answers[key] || []
-                        if (current.includes(i)) {
-                          setAnswer(key, current.filter(x => x !== i))
-                        } else if (current.length < 2) {
-                          setAnswer(key, [...current, i])
-                        }
-                      }}
-                      style={{marginTop:3,accentColor:'#fff',width:15,height:15}} />
-                    {opt}
+                <label key={i} style={{display:'flex',alignItems:'flex-start',gap:8,marginBottom:6,cursor:'pointer',fontSize:13}}>
+                  <input type="checkbox" checked={selected.includes(i)}
+                    onChange={() => {
+                      const key = `multi_${sg.ids[0]}_${sg.ids[1]}`
+                      const current = answers[key] || []
+                      if (current.includes(i)) {
+                        setAnswer(key, current.filter(x => x !== i))
+                      } else if (current.length < 2) {
+                        setAnswer(key, [...current, i])
+                      }
+                    }}
+                    style={{marginTop:3,accentColor:'#c8102e',width:15,height:15}} />
+                  {opt}
                 </label>
               ))}
             </div>
           )
         })}
-      </div>
-    )
-  }
-
-  if (qType === "summary_completion_select") {
-    const summaryText = group.extra_data?.summary_text || ''
-    const parts = summaryText.split(/\[(\d+)\]/)
-    const qByNum = {}
-    qs.forEach(q => { qByNum[q.question_number] = q })
-    const opts = Object.entries(group.extra_data?.options || {}).map(([k,v]) => ({key:k,val:v}))
-    const usedKeys = new Set(Object.values(answers))
-    const available = opts.filter(o => !usedKeys.has(o.key))
-    const handleDrop = (qId, e) => {
-      e.preventDefault()
-      const k = e.dataTransfer.getData('text/plain')
-      const prevQ = qs.find(x => x.id !== qId && answers[x.id] === k)
-      if (prevQ) setAnswer(prevQ.id, '')
-      setAnswer(qId, k)
-    }
-    return (
-      <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:8,fontSize:15,color:'#000'}}>{group.instruction}</div>
-        {group.extra_data?.summary_title && <div style={{fontWeight:700,fontSize:14,marginBottom:10}}>{group.extra_data?.summary_title}</div>}
-        <div style={{fontSize:14,lineHeight:2.0}}>
-          {parts.map((part, i) => {
-            if (i % 2 === 0) return <span key={i}>{part}</span>
-            const q = qByNum[Number(part)]
-            const qId = q ? q.id : `q${part}`
-            const sel = answers[qId] || ''
-            const selOpt = opts.find(o => o.key === sel)
-            return (
-              <span key={i} style={{display:'inline-flex',alignItems:'center',margin:'0 2px'}}>
-                <span draggable={!!sel}
-                  onDragStart={e => {if(sel){e.dataTransfer.setData('text/plain', sel);e.dataTransfer.effectAllowed='move'}}}
-                  onDragOver={e => {e.preventDefault();e.dataTransfer.dropEffect='move'}}
-                  onDrop={e => handleDrop(qId, e)}
-                  onClick={() => {if(sel)setAnswer(qId,'')}}
-                  style={{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'4px 8px',border:sel?'2px solid #c8102e':'1px dashed #aaa',borderRadius:3,background:'#fff',fontSize:13,lineHeight:0.8,fontWeight:sel?700:500,color:sel?'#c8102e':'#555',cursor:sel?'grab':'default',userSelect:sel?'none':'auto',minWidth:94,transition:'all 0.15s'}}>
-                  {selOpt ? <span><span style={{fontWeight:700}}>{selOpt.key}.</span> {selOpt.val}</span> : <span style={{color:'#999',fontSize:14,fontWeight:500}}>{q.question_number}</span>}
-                </span>
-              </span>
-            )
-          })}
-        </div>
-        {opts.length > 0 && (
-          <div style={{display:'flex',flexWrap:'wrap',gap:4,marginTop:12}}>
-            {available.map(o => (
-              <span key={o.key} draggable
-                onDragStart={e => {e.dataTransfer.setData('text/plain', o.key);e.dataTransfer.effectAllowed='move'}}
-                style={{border:'1px solid #333',borderRadius:3,padding:'3px 8px',fontSize:12,fontWeight:600,background:'#fff',cursor:'grab',userSelect:'none'}}>{o.key}. {o.val}</span>
-            ))}
-          </div>
-        )}
       </div>
     )
   }
@@ -268,12 +215,12 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
     qs.forEach(q => { qByNum[q.question_number] = q })
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:8,fontSize:15,color:'#000'}}>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:8,fontSize:14,color:'#000'}}>
           {group.instruction}
         </div>
-        {group.extra_data?.summary_title && <div style={{fontWeight:700,fontSize:14,marginBottom:10}}>{group.extra_data?.summary_title}</div>}
-        <div style={{fontSize:14,lineHeight:2.0}}>
+        {group.extra_data?.summary_title && <div style={{fontWeight:700,fontSize:13,marginBottom:10}}>{group.extra_data?.summary_title}</div>}
+        <div style={{fontSize:13,lineHeight:2.0}}>
           {parts.map((part, i) => {
             if (i % 2 === 0) return <span key={i}>{part}</span>
             const q = qByNum[Number(part)]
@@ -282,7 +229,7 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
               <span key={i} style={{display:'inline-flex',alignItems:'center'}}>
                 <input type="text" value={answers[qId] || ''}
                   onChange={e => setAnswer(qId, e.target.value)}
-                  style={{border:'1px solid #999',borderRadius:3,padding:'0px 8px',width:234,fontSize:14,fontWeight:500,color:'#000',outline:'none',textAlign:'center',lineHeight:0.8}}
+                  style={{border:'1px solid #999',borderRadius:3,padding:'2px 6px',width:100,fontSize:15,fontWeight:700,color:'#000',outline:'none',textAlign:'center'}}
                   placeholder={part} />
               </span>
             )
@@ -295,22 +242,22 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
   if (qType === "multiple_choice" || qType === "choose_title") {
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:10,fontSize:15,color:'#000'}}>{group.instruction}</div>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:10,fontSize:14,color:'#000'}}>{group.instruction}</div>
         {group.questions.map(q => {
           const opts = group.extra_data?.[String(q.question_number)]?.options || {}
           return (
             <div key={q.id} style={{marginBottom:14}}>
               <div style={{display:'flex',alignItems:'flex-start',gap:6,marginBottom:8}}>
-                <span style={{fontSize:14,fontWeight:800,color:'#000',flexShrink:0,lineHeight:1.6}}>{q.question_number}</span>
-                <span style={{fontSize:15,lineHeight:1.6}}>{q.prompt}</span>
+                <span style={{background:'#e8e8e8',borderRadius:3,padding:'2px 8px',fontSize:13,fontWeight:700,color:'#000',flexShrink:0,marginTop:1}}>{q.question_number}</span>
+                <span style={{fontSize:14,lineHeight:1.6}}>{q.prompt}</span>
               </div>
               <div style={{marginLeft:28,display:'flex',flexDirection:'column',gap:6}}>
                 {Object.entries(opts).map(([letter, text]) => (
-                  <label key={letter} style={{display:'flex',alignItems:'flex-start',gap:8,cursor:'pointer',fontSize:14,background:answers[q.id] === letter ? '#c8102e' : 'transparent',padding:'4px 8px',borderRadius:4,color:answers[q.id] === letter ? '#fff' : '#000'}}>
+                  <label key={letter} style={{display:'flex',alignItems:'flex-start',gap:8,cursor:'pointer',fontSize:13}}>
                     <input type="radio" name={q.id} value={letter} checked={answers[q.id] === letter}
                       onChange={() => setAnswer(q.id, answers[q.id] === letter ? '' : letter)}
-                      style={{marginTop:2,accentColor:'#fff',width:15,height:15}} />
+                      style={{marginTop:2,accentColor:'#c8102e',width:15,height:15}} />
                     <strong style={{marginRight:4}}>{letter}.</strong> {text}
                   </label>
                 ))}
@@ -326,16 +273,18 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
     const chartSteps = group.extra_data?.steps
     const tableHeaders = group.extra_data?.table_headers
     const tableRows = group.extra_data?.table_rows
+    const diagramDesc = group.extra_data?.diagram_description
     const chartTitle = group.extra_data?.chart_title
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:10,fontSize:15,color:'#000'}}>{group.instruction}</div>
-        {chartTitle && <div style={{fontWeight:700,fontSize:14,marginBottom:8,fontStyle:'italic'}}>{chartTitle}</div>}
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:10,fontSize:14,color:'#000'}}>{group.instruction}</div>
+        {chartTitle && <div style={{fontWeight:700,fontSize:13,marginBottom:8,fontStyle:'italic'}}>{chartTitle}</div>}
+        {diagramDesc && <div style={{fontSize:12,color:'#000',marginBottom:10,padding:'8px 10px',background:'#f9f9f9',border:'1px dashed #ccc',borderRadius:4}}>{diagramDesc}</div>}
         {chartSteps && (
-          <div style={{marginBottom:12,padding:'10px 14px',background:'#fff',border:'1px solid #eee',borderRadius:4,fontSize:13,lineHeight:1.8}}>
+          <div style={{marginBottom:12,padding:'10px 14px',background:'#fafafa',border:'1px solid #eee',borderRadius:4,fontSize:12,lineHeight:1.8}}>
             {chartSteps.map((step, i) => {
-              if (step === '↓') return <div key={i} style={{textAlign:'center',color:'#aaa',fontSize:18}}>↓</div>
+              if (step === '↓') return <div key={i} style={{textAlign:'center',color:'#aaa',fontSize:16}}>↓</div>
               const m = step.match(/\[(\d+)\]/)
               if (m) {
                 const parts = step.split(/\[\d+\]/)
@@ -345,7 +294,7 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
                     {parts[0] && <span>{parts[0]}</span>}
                     <input type="text" value={qq ? (answers[qq.id] || '') : ''}
                       onChange={e => { if (qq) setAnswer(qq.id, e.target.value) }}
-                      style={{border:'1px solid #999',borderRadius:3,padding:'0px 8px',width:180,fontSize:15,fontWeight:600,color:'#000',outline:'none',textAlign:'center'}}
+                      style={{border:'1px solid #999',borderRadius:3,padding:'2px 6px',width:100,fontSize:15,fontWeight:700,color:'#000',outline:'none',textAlign:'center'}}
                       placeholder={m[1]} />
                     {parts[1] && <span>{parts[1]}</span>}
                   </div>
@@ -357,24 +306,24 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
         )}
         {tableHeaders && tableRows && (
           <div style={{marginBottom:12,overflowX:'auto'}}>
-            <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
-              <thead><tr>{tableHeaders.map((h,i) => <th key={i} style={{border:'1px solid #000',padding:'6px 8px',background:'#fff',fontWeight:700,textAlign:'left'}}>{h}</th>)}</tr></thead>
+            <table style={{width:'100%',borderCollapse:'collapse',fontSize:12}}>
+              <thead><tr>{tableHeaders.map((h,i) => <th key={i} style={{border:'1px solid #ccc',padding:'6px 8px',background:'#f0f0f0',fontWeight:700,textAlign:'left'}}>{h}</th>)}</tr></thead>
               <tbody>{tableRows.map((row, ri) => (
                 <tr key={ri}>{row.map((cell, ci) => {
                   const m = String(cell).match(/\[(\d+)\]/)
                   if (m) {
                     const parts = String(cell).split(/\[\d+\]/)
                     const qq = qs.find(x => x.question_number === Number(m[1]))
-                    return <td key={ci} style={{border:'1px solid #000',padding:'4px 6px'}}>
+                    return <td key={ci} style={{border:'1px solid #ccc',padding:'4px 6px'}}>
                       {parts[0] && <span>{parts[0]}</span>}
                       <input type="text" value={qq ? (answers[qq.id] || '') : ''}
                         onChange={e => { if (qq) setAnswer(qq.id, e.target.value) }}
-                        style={{border:'1px solid #999',borderRadius:3,padding:'0px 8px',width:180,fontSize:15,fontWeight:600,color:'#000',outline:'none',textAlign:'center'}}
+                        style={{border:'1px solid #999',borderRadius:3,padding:'2px 4px',width:80,fontSize:15,fontWeight:700,color:'#000',outline:'none',textAlign:'center'}}
                         placeholder={m[1]} />
                       {parts[1] && <span>{parts[1]}</span>}
                     </td>
                   }
-                  return <td key={ci} style={{border:'1px solid #000',padding:'4px 6px'}}>{cell}</td>
+                  return <td key={ci} style={{border:'1px solid #ccc',padding:'4px 6px'}}>{cell}</td>
                 })}</tr>))}</tbody>
             </table>
           </div>
@@ -382,20 +331,20 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
         {!chartSteps && !tableHeaders && qs.map(q => {
           const inline = renderPromptWithBlanks(q.prompt, answers[q.id], v => setAnswer(q.id, v))
           if (inline) {
-            return <div key={q.id} style={{marginBottom:10,fontSize:15,lineHeight:1.7}}>
-              <span style={{fontSize:14,fontWeight:800,color:'#000',marginRight:6}}>{q.question_number}</span>
+            return <div key={q.id} style={{marginBottom:10,fontSize:14,lineHeight:1.7}}>
+              <span style={{background:'#e8e8e8',borderRadius:3,padding:'2px 8px',fontSize:13,fontWeight:700,color:'#000',marginRight:6}}>{q.question_number}</span>
               {inline}
             </div>
           }
           return (
             <div key={q.id} style={{marginBottom:10}}>
               <div style={{display:'flex',alignItems:'flex-start',gap:6,marginBottom:6}}>
-                <span style={{fontSize:14,fontWeight:800,color:'#000',flexShrink:0,lineHeight:1.6}}>{q.question_number}</span>
-                <span style={{fontSize:15,lineHeight:1.6}}>{q.prompt}</span>
+                <span style={{background:'#e8e8e8',borderRadius:3,padding:'2px 8px',fontSize:13,fontWeight:700,color:'#000',flexShrink:0,marginTop:1}}>{q.question_number}</span>
+                <span style={{fontSize:14,lineHeight:1.6}}>{q.prompt}</span>
               </div>
               <input type="text" value={answers[q.id] || ''}
                 onChange={e => setAnswer(q.id, e.target.value)}
-                style={{border:'1px solid #999',borderRadius:3,padding:'4px 8px',fontSize:15,fontWeight:600,color:'#000',outline:'none',width:160,boxSizing:'border-box'}} />
+                style={{border:'1px solid #999',borderRadius:3,padding:'4px 8px',fontSize:15,fontWeight:700,color:'#000',outline:'none',width:'100%',boxSizing:'border-box'}} />
             </div>
           )
         })}
@@ -404,99 +353,30 @@ function QuestionGroup({ group, answers, setAnswer, toggleMulti, passageIdx }) {
   }
 
   if (qType === "match_features" || qType === "match_paragraph_info" || qType === "sentence_endings") {
-    const categories = group.extra_data?.categories || group.extra_data?.endings || group.extra_data?.paragraphs || []
-    const isParagraphs = Array.isArray(categories)
-    const opts = isParagraphs ? categories.map(p => ({key:p,val:''})) : Object.entries(categories).map(([k,v]) => ({key:k,val:v}))
-
-    if (qType === "sentence_endings") {
-      const usedKeys = new Set(Object.values(answers))
-      const available = opts.filter(o => !usedKeys.has(o.key))
-      const handleDrop = (qId, e) => {
-        e.preventDefault()
-        const k = e.dataTransfer.getData('text/plain')
-        const prevQ = qs.find(x => x.id !== qId && answers[x.id] === k)
-        if (prevQ) setAnswer(prevQ.id, '')
-        setAnswer(qId, k)
-      }
-      return (
-        <div style={{marginBottom:24}}>
-          <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-          <div style={{marginBottom:10,fontSize:15,color:'#000'}}>{group.instruction}</div>
-          {qs.map(q => {
-            const sel = answers[q.id] || ''
-            const selOpt = opts.find(o => o.key === sel)
-            return (
-              <div key={q.id} style={{marginBottom:14}}>
-                <div style={{fontSize:15,lineHeight:1.5}}>{q.prompt}</div>
-                <div draggable={!!sel}
-                  onDragStart={e => {if(sel){e.dataTransfer.setData('text/plain', sel);e.dataTransfer.effectAllowed='move'}}}
-                  onDragOver={e => {e.preventDefault();e.dataTransfer.dropEffect='move'}}
-                  onDrop={e => handleDrop(q.id, e)}
-                  onClick={() => {if(sel)setAnswer(q.id,'')}}
-                  style={{marginTop:6,padding:'6px 8px',border:sel?'2px solid #c8102e':'1px dashed #aaa',borderRadius:3,background:'#fff',fontSize:13,lineHeight:0.8,fontWeight:sel?700:500,color:sel?'#c8102e':'#555',cursor:sel?'grab':'default',userSelect:sel?'none':'auto',display:'flex',alignItems:'center',justifyContent:'center',transition:'all 0.15s'}}>
-                  {selOpt ? <span><span style={{fontWeight:700}}>{selOpt.key}.</span> {selOpt.val}</span> : <span style={{color:'#999',fontSize:16,fontWeight:600}}>{q.question_number}</span>}
-                </div>
-              </div>
-            )
-          })}
-          <div style={{display:'flex',flexDirection:'column',gap:4,marginTop:8}}>
-            {available.map(o => (
-              <div key={o.key} draggable
-                onDragStart={e => {e.dataTransfer.setData('text/plain', o.key);e.dataTransfer.effectAllowed='move'}}
-                style={{display:'flex',alignItems:'flex-start',gap:6,padding:'6px 8px',border:'1px solid #999',borderRadius:4,background:'#fff',fontSize:13,lineHeight:1.5,cursor:'grab',userSelect:'none'}}>
-                <span style={{fontWeight:700,flexShrink:0}}>{o.key}.</span>
-                <span>{o.val}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )
-    }
-
+    const categories = group.extra_data?.categories || group.extra_data?.endings || {}
+    const opts = Object.entries(categories).map(([k,v]) => ({key:k,val:v}))
     return (
       <div style={{marginBottom:24}}>
-        <div style={{fontWeight:700,fontSize:18,marginBottom:8}}>Questions {qRange}</div>
-        <div style={{marginBottom:10,fontSize:15,color:'#000'}}>{group.instruction}</div>
-        <table style={{width:'100%',borderCollapse:'collapse',marginBottom:12}}>
-          <thead>
-            <tr>
-              <th style={{textAlign:'left',padding:'6px 10px',fontWeight:700,fontSize:14,border:'1px solid #333',background:'#fff'}}></th>
-              {opts.map(o => (
-                <th key={o.key} style={{textAlign:'center',padding:'6px 10px',fontWeight:700,fontSize:14,border:'1px solid #333',background:'#fff',width:50}}>{o.key}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {qs.map(q => (
-              <tr key={q.id}>
-                <td style={{padding:'6px 10px',border:'1px solid #333',fontSize:14}}>
-                  <span style={{fontWeight:800,marginRight:6}}>{q.question_number}</span>
-                  {q.prompt}
-                </td>
-                {opts.map(o => (
-                  <td key={o.key} style={{textAlign:'center',padding:'6px 10px',border:'1px solid #333'}}>
-                    <label style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:22,height:22,borderRadius:'50%',border:answers[q.id] === o.key ? '6px solid #c8102e' : '2px solid #666',cursor:'pointer',background:'#fff',transition:'all 0.1s'}}>
-                      <input type="radio" name={`match_${q.id}`} value={o.key}
-                        checked={answers[q.id] === o.key}
-                        onChange={() => setAnswer(q.id, o.key)}
-                        style={{display:'none'}} />
-                    </label>
-                  </td>
-                ))}
-              </tr>
+        <div style={{fontWeight:700,fontSize:16,marginBottom:8}}>Questions {qRange}</div>
+        <div style={{marginBottom:10,fontSize:14,color:'#000'}}>{group.instruction}</div>
+        {opts.length > 0 && (
+          <div style={{display:'flex',flexWrap:'wrap',gap:4,marginBottom:12}}>
+            {opts.map(o => (
+              <span key={o.key} style={{border:'1px solid #333',borderRadius:3,padding:'3px 8px',fontSize:11,fontWeight:600,background:'#fafafa'}}>{o.key}. {o.val}</span>
             ))}
-          </tbody>
-        </table>
-        {opts.some(o => o.val) && (
-          <div style={{display:'flex',flexDirection:'column',gap:3}}>
-            {opts.map(o => o.val ? (
-              <div key={o.key} style={{display:'flex',alignItems:'flex-start',gap:6,fontSize:13,lineHeight:1.5}}>
-                <span style={{fontWeight:700,flexShrink:0}}>{o.key}.</span>
-                <span style={{color:"#000"}}>{o.val}</span>
-              </div>
-            ) : null)}
           </div>
         )}
+        {qs.map(q => (
+          <div key={q.id} style={{marginBottom:10,display:'flex',alignItems:'center',gap:6}}>
+            <span style={{background:'#e8e8e8',borderRadius:3,padding:'2px 8px',fontSize:13,fontWeight:700,color:'#000',flexShrink:0}}>{q.question_number}</span>
+            <span style={{fontSize:14,flex:1}}>{q.prompt}</span>
+            <select value={answers[q.id] || ''} onChange={e => setAnswer(q.id, e.target.value)}
+              style={{border:'1px solid #aaa',borderRadius:3,padding:'4px 8px',fontSize:16,fontWeight:700,color:'#000',background:'#fff',minWidth:80}}>
+              <option value="">—</option>
+              {opts.map(o => <option key={o.key} value={o.key}>{o.key}. {o.val}</option>)}
+            </select>
+          </div>
+        ))}
       </div>
     )
   }
@@ -517,7 +397,6 @@ export default function ReadingPage() {
   const [loading,       setLoading]       = useState(true)
   const [submitting,    setSubmitting]    = useState(false)
   const [activePassage, setActivePassage] = useState(0)
-  const [expandedPart, setExpandedPart] = useState(null)
   const [passageHtml,   setPassageHtml]   = useState({})
   const [selectedText,  setSelectedText]  = useState('')
   const [showModal,     setShowModal]     = useState(false)
@@ -599,11 +478,10 @@ export default function ReadingPage() {
     }, {}))
   }, [section])
 
-  const timerRunning = isMockTest ? !!section : (!!section && started)
   const { seconds } = useTimer(
     section?.time_limit_seconds || 3600,
     undefined,
-    timerRunning
+    !!section
   )
 
   useEffect(() => {
@@ -756,13 +634,13 @@ export default function ReadingPage() {
         ::-webkit-scrollbar-track{background:#f5f5f5;}
       `}</style>
 
-      <div style={{fontFamily:"Arial, sans-serif",height:"100vh",display:"flex",flexDirection:"column",background:"#fff",fontSize:15,color:"#000"}}>
+      <div style={{fontFamily:"Arial, sans-serif",height:"100vh",display:"flex",flexDirection:"column",background:"#fff",fontSize:14,color:"#000"}}>
 
-        {/* ═══ TOP BAR  ═══ */}
+        {/* ═══ TOP BAR — design.txt exact ═══ */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid #ccc",padding:"0 20px",height:52,flexShrink:0,background:"#fff"}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <img src={ieltsLogo} alt="IELTS" style={{height:28,width:'auto'}} />
-            <span style={{fontSize:14,color:"#333",borderLeft:"1px solid #ccc",paddingLeft:12}}>Test taker ID</span>
+            <span style={{fontSize:13,color:"#333",borderLeft:"1px solid #ccc",paddingLeft:12}}>Test taker ID</span>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:16}}>
             {passages.length > 1 && (
@@ -770,7 +648,7 @@ export default function ReadingPage() {
                 {passages.map((_, i) => (
                   <button key={i} onClick={() => setActivePassage(i)}
                     style={{
-                      padding:'4px 10px', fontSize:13, fontWeight: activePassage === i ? 700 : 400,
+                      padding:'4px 10px', fontSize:12, fontWeight: activePassage === i ? 700 : 400,
                       border:'none', background: activePassage === i ? '#e8e8e8' : 'transparent',
                       borderRadius:3, cursor:'pointer', color:'#333',
                     }}>
@@ -780,62 +658,62 @@ export default function ReadingPage() {
               </div>
             )}
             {/* Timer */}
-            <span style={{fontSize:14,fontWeight:700,color: isCrit ? '#c8102e' : isLow ? '#cc6600' : '#333',fontFamily:'monospace'}}>
-              {fmt(seconds)}
+            <span style={{fontSize:13,fontWeight:700,color: isCrit ? '#c8102e' : isLow ? '#cc6600' : '#333',fontFamily:'monospace'}}>
+              <Clock size={13} style={{verticalAlign:'middle',marginRight:4}} />{fmt(seconds)}
             </span>
+            {/* Review */}
             <button onClick={() => setShowReview(p => !p)}
-              style={{background:'none',border:'1px solid #ccc',borderRadius:4,padding:'4px 10px',fontSize:13,cursor:'pointer',color:'#333'}}>
-              Review
+              style={{background:'none',border:'1px solid #ccc',borderRadius:4,padding:'4px 10px',fontSize:12,cursor:'pointer',color:'#333'}}>
+              <LayoutList size={13} style={{verticalAlign:'middle',marginRight:4}} />Review
             </button>
+            {/* Submit */}
             <button onClick={() => setShowModal(true)} disabled={submitting}
-              style={{background:'#c8102e',color:'#fff',border:'none',borderRadius:4,padding:'5px 14px',fontSize:13,fontWeight:700,cursor:submitting?'not-allowed':'pointer',opacity:submitting?0.6:1}}>
-              Submit
+              style={{background:'#c8102e',color:'#fff',border:'none',borderRadius:4,padding:'5px 14px',fontSize:12,fontWeight:700,cursor:submitting?'not-allowed':'pointer',opacity:submitting?0.6:1}}>
+              <Send size={13} style={{verticalAlign:'middle',marginRight:4}} />Submit
             </button>
-            <span style={{fontSize:22,cursor:'pointer'}}>☰</span>
+            <span style={{fontSize:20,cursor:'pointer'}}>☰</span>
           </div>
         </div>
 
         
-        <div style={{background:"#f5f5f5",border:"1px solid #ccc",padding:"4px 10px 6px",fontSize:16,flexShrink:0,margin:"16px 24px 0",borderRadius:4}}>
-          <div><strong>Part {activePassage + 1}</strong></div>
-          <div style={{color:"#555",fontWeight:500,fontSize:16}}>
+        <div style={{background:"#f5f5f5",borderBottom:"1px solid #ddd",padding:"8px 20px",fontSize:13,flexShrink:0}}>
+          <strong>Part {activePassage + 1}</strong>
+          <span style={{color:"#555",marginLeft:8}}>
             Read the text and answer questions {pQs.length ? `${pQs[0].question_number}–${pQs[pQs.length-1].question_number}` : ''}.
-          </div>
+          </span>
         </div>
 
 
 
         {/* ═══ MAIN SPLIT PANE ═══ */}
-        <div id="split-pane-container" style={{display:"flex",flex:1,overflow:"hidden",}}>
+        <div id="split-pane-container" style={{display:"flex",flex:1,overflow:"hidden",userSelect:dragging?'none':'auto'}}>
 
           {/* ─── LEFT: Passage ─── */}
           <div style={{width:`${splitPercent}%`,display:"flex",flexDirection:"column",borderRight:"1px solid #ccc",overflow:"hidden"}}
             className="flex lg:flex">
             {/* Annotations */}
-            {selectedText && (
-              <div style={{flexShrink:0,padding:'4px 16px',background:'#fff',display:'flex',alignItems:'center',gap:4,flexWrap:'wrap',minHeight:32,animation:'fadeIn 0.2s ease-in'}}>
-                <span style={{fontSize:11,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginRight:4}}>Annotate:</span>
-                <button onClick={() => applyMark('highlight')}
-                  style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:12,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
-                  <Highlighter size={11}/>Highlight</button>
-                <button onClick={() => applyMark('underline')}
-                  style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:12,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
-                  <UnderlineIcon size={11}/>Underline</button>
-                {selectedText.split(' ').length <= 3 && (
-                  <button onClick={starWord}
-                    style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:12,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
-                    <Star size={11}/>Star</button>
-                )}
-                <button onClick={clearAllMarks}
-                  style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:12,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
-                  <X size={11}/>Clear</button>
-              </div>
-            )}
+            <div style={{flexShrink:0,padding:'4px 16px',borderBottom:'1px solid #eee',background:'#fafafa',display:'flex',alignItems:'center',gap:4,flexWrap:'wrap',minHeight:32}}>
+              <span style={{fontSize:10,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginRight:4}}>Annotate:</span>
+              <button onClick={() => applyMark('highlight')} disabled={!selectedText}
+                style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:11,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:selectedText?'pointer':'not-allowed',opacity:selectedText?1:0.4}}>
+                <Highlighter size={11}/>Highlight</button>
+              <button onClick={() => applyMark('underline')} disabled={!selectedText}
+                style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:11,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:selectedText?'pointer':'not-allowed',opacity:selectedText?1:0.4}}>
+                <UnderlineIcon size={11}/>Underline</button>
+              {selectedText && selectedText.split(' ').length <= 3 && (
+                <button onClick={starWord}
+                  style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:11,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
+                  <Star size={11}/>Star</button>
+              )}
+              <button onClick={clearAllMarks}
+                style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 8px',fontSize:11,border:'1px solid #ccc',borderRadius:3,background:'#fff',cursor:'pointer'}}>
+                <X size={11}/>Clear</button>
+            </div>
 
-            <div style={{flex:1,overflowY:"auto",padding:"28px 32px",background:'#fff'}} ref={passageRef} onMouseUp={handleMouseUp}>
-              <h2 style={{fontSize:22,fontWeight:700,marginBottom:18,marginTop:0,color:'#333'}}>{passages[activePassage]?.title}</h2>
+            <div style={{flex:1,overflowY:"auto",padding:"28px 32px",background:'#f9f8f6'}} ref={passageRef} onMouseUp={handleMouseUp}>
+              <h2 style={{fontSize:20,fontWeight:700,marginBottom:18,marginTop:0,color:'#333'}}>{passages[activePassage]?.title}</h2>
               <div className="rp-body select-text" ref={bodyRef}
-                style={{fontFamily:'Arial,sans-serif',fontSize:17,lineHeight:1.9,color:'#000'}}>
+                style={{fontFamily:'Arial,sans-serif',fontSize:16,lineHeight:1.9,color:'#000'}}>
                 {(() => {
                   const mhGroup = allGroups.find(g =>
                     g.passage_number === activePassage + 1 && g.question_type === 'match_headings'
@@ -855,19 +733,21 @@ export default function ReadingPage() {
                         onDrop={isDropTarget ? (e) => handleHeadingDrop(e, pi) : undefined}>
                         {isDropTarget && (
                           <div style={{
-                            display:'flex',alignItems:'center',justifyContent:'center',
+                            display:'flex',alignItems:'center',gap:4,
                             padding:'4px 10px',marginBottom:6,borderRadius:3,
                             border: over ? '2px solid #c8102e' : '1px dashed #aaa',
-                            background: over ? '#fff8e1' : '#fff',
-                            minHeight:28,fontSize:13,fontWeight:700,color: selectedVal ? '#c8102e' : '#555',cursor:'default',
+                            background: over ? '#fff8e1' : '#f5f5f5',
+                            minHeight:28,fontSize:12,color:'#555',cursor:'default',
                             transition:'all 0.15s',
                           }}>
                             {selectedVal ? (
-                              <span style={{fontWeight:700}}>
-                                {mhGroup.extra_data?.headings?.[romans.indexOf(selectedVal)] || selectedVal}
+                              <span style={{fontWeight:700,color:'#c8102e'}}>
+                                ✓ {romans.indexOf(selectedVal) >= 0 ? `${romans.indexOf(selectedVal)+1}. ${mhGroup.extra_data?.headings?.[romans.indexOf(selectedVal)] || selectedVal}` : selectedVal}
                               </span>
                             ) : (
-                              <span>{q.question_number}</span>
+                              <span style={{color: over ? '#c8102e' : '#888'}}>
+                                {over ? '✋ Release to drop' : `⬇ Q${q.question_number}: Drop heading here`}
+                              </span>
                             )}
                           </div>
                         )}
@@ -912,54 +792,42 @@ export default function ReadingPage() {
           </div>
         </div>
 
-        {/* ═══ BOTTOM NAV — design.txt exact ═══ */}
-        <div style={{borderTop:"1px solid #ccc",padding:"8px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",background:"#fff",flexShrink:0,flexWrap:'wrap',gap:6}}>
-          <div style={{display:"flex",flex:1,justifyContent:'space-between'}}>
-            {partNums.map((nums, pIdx) => {
-              const total = nums.length
-              const answered = nums.filter(n => {
-                const q = passageQs(pIdx).find(qq => qq.question_number === n)
-                return q && answers[q.id]
-              }).length
-              const isExpanded = expandedPart === pIdx
-              return (
-                <div key={pIdx} style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer'}}
-                  onClick={() => setExpandedPart(isExpanded ? null : pIdx)}>
-                  <span style={{fontSize:15,fontWeight:600,color:'#333'}}>Part {pIdx + 1}</span>
-                  {isExpanded ? (
-                    nums.map(n => {
-                      const q = passageQs(pIdx).find(qq => qq.question_number === n)
-                      const ans = q ? answers[q.id] : undefined
-                      return (
-                        <span key={n} onClick={(e) => {
-                          e.stopPropagation()
-                          setActivePassage(pIdx)
-                          if (q) setTimeout(() => document.getElementById(`q-${q.id}`)?.scrollIntoView({behavior:'smooth',block:'center'}), 80)
-                        }}
-                          style={{
-                            minWidth:22,height:22,borderRadius:3,display:'inline-flex',alignItems:'center',justifyContent:'center',
-                            border: "1px solid #aaa",
-                            background: ans ? "#555" : "#fff",
-                            color: ans ? "#fff" : "#333",
-                            fontSize:11,fontWeight:600,
-                            cursor:"pointer",padding:"0 2px",
-                          }}>
-                          {n}
-                        </span>
-                      )
-                    })
-                  ) : (
-                    <span style={{fontSize:15,fontWeight:600,color:'#000'}}>{answered} of {total}</span>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+        
+        <div style={{borderTop:"1px solid #ccc",padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",background:"#fff",flexShrink:0,flexWrap:'wrap',gap:8}}>
+          {partNums.map((nums, pIdx) => (
+            nums.length > 0 && (
+              <div key={pIdx} style={{display:"flex",alignItems:"center",gap:4,flexWrap:'wrap'}}>
+                <span style={{fontSize:12,color:"#555",marginRight:4,fontWeight:600}}>Part {pIdx + 1}</span>
+                {nums.map(n => {
+                  const q = passageQs(pIdx).find(qq => qq.question_number === n)
+                  const ans = q ? answers[q.id] : undefined
+                  const isActive = activePassage === pIdx
+                  return (
+                    <button key={n} onClick={() => {
+                      setActivePassage(pIdx)
+                      if (q) setTimeout(() => document.getElementById(`q-${q.id}`)?.scrollIntoView({behavior:'smooth',block:'center'}), 80)
+                    }}
+                      style={{
+                        minWidth:26,height:26,borderRadius:3,
+                        border: isActive ? "2px solid #333" : "1px solid #aaa",
+                        background: ans ? "#555" : "#fff",
+                        color: ans ? "#fff" : "#333",
+                        fontSize:11,fontWeight: isActive ? 700 : 400,
+                        cursor:"pointer",padding:"0 3px",
+                      }}>
+                      {n}
+                    </button>
+                  )
+                })}
+              </div>
+            )
+          ))}
           <div style={{display:"flex",alignItems:"center",gap:6}}>
             <button onClick={() => setActivePassage(p => Math.max(0, p - 1))}
-              style={{background:"#333",color:"#fff",border:"none",borderRadius:4,width:32,height:32,cursor:"pointer",fontSize:22,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center"}}>❮</button>
+              style={{background:"#333",color:"#fff",border:"none",borderRadius:4,width:36,height:36,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>←</button>
             <button onClick={() => setActivePassage(p => Math.min(passages.length - 1, p + 1))}
-              style={{background:"#333",color:"#fff",border:"none",borderRadius:4,width:32,height:32,cursor:"pointer",fontSize:22,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center"}}>❯</button>
+              style={{background:"#333",color:"#fff",border:"none",borderRadius:4,width:36,height:36,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>→</button>
+            <span style={{color:"#888",fontSize:20,marginLeft:4,cursor:'pointer'}} onClick={() => setShowModal(true)}>✓</span>
           </div>
         </div>
 
@@ -968,20 +836,20 @@ export default function ReadingPage() {
           <div style={{position:'fixed',inset:0,zIndex:40,display:'flex',justifyContent:'flex-end'}} onClick={() => setShowReview(false)}>
             <div style={{background:'#fff',width:'85vw',maxWidth:360,height:'100%',borderLeft:'1px solid #ccc',display:'flex',flexDirection:'column'}} onClick={e => e.stopPropagation()}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #ddd'}}>
-                <h3 style={{fontSize:15,fontWeight:600,color:'#333'}}>Answer Review</h3>
-                <button onClick={() => setShowReview(false)} style={{padding:4,cursor:'pointer',background:'none',border:'none',color:'#888',fontSize:20}}>✕</button>
+                <h3 style={{fontSize:15,fontWeight:700,color:'#333'}}>Answer Review</h3>
+                <button onClick={() => setShowReview(false)} style={{padding:4,cursor:'pointer',background:'none',border:'none',color:'#888',fontSize:18}}>✕</button>
               </div>
               <div style={{flex:1,overflowY:'auto',padding:'16px 20px'}}>
                 {passages.map((_, pIdx) => (
                   <div key={pIdx} style={{marginBottom:16}}>
-                    <p style={{fontSize:12,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginBottom:8}}>Passage {pIdx + 1}</p>
+                    <p style={{fontSize:11,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginBottom:8}}>Passage {pIdx + 1}</p>
                     <div style={{display:'flex',flexWrap:'wrap',gap:4}}>
                       {passageQs(pIdx).map(q => {
                         const ans = answers[q.id]
                         return (
                           <button key={q.id} onClick={() => { setShowReview(false); scrollToQ(q.id, pIdx) }}
                             style={{
-                              width:32,height:32,fontSize:12,fontWeight:700,borderRadius:4,cursor:'pointer',
+                              width:32,height:32,fontSize:11,fontWeight:700,borderRadius:4,cursor:'pointer',
                               border: flagged.has(q.id) ? '2px solid #f0ad4e' : ans ? '2px solid #555' : '1px solid #aaa',
                               background: ans ? '#555' : flagged.has(q.id) ? '#fef9e7' : '#fff',
                               color: ans ? '#fff' : '#333',
@@ -994,10 +862,10 @@ export default function ReadingPage() {
                   </div>
                 ))}
               </div>
-              <div style={{padding:'16px 20px',borderTop:'1px solid #ddd',background:'#fff'}}>
-                <p style={{fontSize:13,color:'#666',textAlign:'center',marginBottom:8}}>{answered}/{totalQs} answered</p>
+              <div style={{padding:'16px 20px',borderTop:'1px solid #ddd',background:'#fafafa'}}>
+                <p style={{fontSize:12,color:'#666',textAlign:'center',marginBottom:8}}>{answered}/{totalQs} answered</p>
                 <button onClick={() => { setShowReview(false); setShowModal(true) }}
-                  style={{width:'100%',padding:'12px 0',background:'#c8102e',color:'#fff',border:'none',borderRadius:4,fontSize:15,fontWeight:700,cursor:'pointer'}}>
+                  style={{width:'100%',padding:'12px 0',background:'#c8102e',color:'#fff',border:'none',borderRadius:4,fontSize:14,fontWeight:700,cursor:'pointer'}}>
                   Submit Test
                 </button>
               </div>
@@ -1009,19 +877,19 @@ export default function ReadingPage() {
         {showModal && (
           <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:16}}>
             <div style={{background:'#fff',width:'100%',maxWidth:440,padding:24,border:'1px solid #000'}}>
-              <h3 style={{fontSize:18,fontWeight:700,color:'#333',marginBottom:4}}>Submit Reading Test?</h3>
-              <p style={{fontSize:14,color:'#555',marginBottom:16}}>
+              <h3 style={{fontSize:16,fontWeight:700,color:'#333',marginBottom:4}}>Submit Reading Test?</h3>
+              <p style={{fontSize:13,color:'#555',marginBottom:16}}>
                 You've answered <strong>{answered}</strong> of <strong>{totalQs}</strong> questions.
                 {answered < totalQs && <span style={{color:'#c8102e',fontWeight:600}}> {totalQs - answered} unanswered.</span>}
               </p>
               <div style={{marginBottom:20,maxHeight:160,overflowY:'auto',paddingRight:4}}>
                 {passages.map((_, pIdx) => (
                   <div key={pIdx} style={{marginBottom:12}}>
-                    <p style={{fontSize:11,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginBottom:6}}>Passage {pIdx + 1}</p>
+                    <p style={{fontSize:10,fontWeight:700,color:'#666',textTransform:'uppercase',letterSpacing:1,marginBottom:6}}>Passage {pIdx + 1}</p>
                     <div style={{display:'flex',flexWrap:'wrap',gap:2}}>
                       {passageQs(pIdx).map(q => (
                         <div key={q.id} style={{
-                          width:26,height:26,fontSize:11,fontWeight:700,
+                          width:26,height:26,fontSize:10,fontWeight:700,
                           display:'flex',alignItems:'center',justifyContent:'center',
                           border:'1px solid #aaa',
                           background: answers[q.id] ? '#555' : '#fff',
@@ -1036,9 +904,9 @@ export default function ReadingPage() {
               </div>
               <div style={{display:'flex',gap:8}}>
                 <button onClick={() => setShowModal(false)}
-                  style={{flex:1,padding:'10px 0',fontSize:15,fontWeight:600,color:'#333',border:'1px solid #ccc',borderRadius:4,background:'#fff',cursor:'pointer'}}>Review Test</button>
+                  style={{flex:1,padding:'10px 0',fontSize:13,fontWeight:600,color:'#333',border:'1px solid #ccc',borderRadius:4,background:'#fff',cursor:'pointer'}}>Review Test</button>
                 <button onClick={() => handleSubmit(false)} disabled={submitting}
-                  style={{flex:1,padding:'10px 0',fontSize:14,fontWeight:700,color:'#fff',background:'#c8102e',border:'none',borderRadius:4,cursor:submitting?'not-allowed':'pointer',opacity:submitting?0.6:1}}>
+                  style={{flex:1,padding:'10px 0',fontSize:13,fontWeight:700,color:'#fff',background:'#c8102e',border:'none',borderRadius:4,cursor:submitting?'not-allowed':'pointer',opacity:submitting?0.6:1}}>
                   {submitting ? 'Submitting…' : 'Submit Now'}
                 </button>
               </div>
