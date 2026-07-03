@@ -107,8 +107,8 @@ export function StartOverlay({ onStart, onClose, moduleName = 'Test', icon }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(0px)',
+        WebkitBackdropFilter: 'blur(0px)',
         background: 'rgba(0, 0, 0, 0.85)',
       }}>
       <div
