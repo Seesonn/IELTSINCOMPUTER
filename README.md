@@ -2,7 +2,7 @@
 
 Nepal's most comprehensive computer-based IELTS practice platform with AI scoring.
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 | Layer      | Technology                        |
 |------------|-----------------------------------|
@@ -15,7 +15,7 @@ Nepal's most comprehensive computer-based IELTS practice platform with AI scorin
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ieltsprep/
@@ -72,7 +72,7 @@ ieltsprep/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Python 3.11+, Node.js 18+, PostgreSQL 15+
@@ -106,7 +106,7 @@ npm run dev
 
 ---
 
-## 🔑 Demo Accounts (after seeding)
+##  Demo Accounts (after seeding)
 
 | Role    | Email                  | Password    |
 |---------|------------------------|-------------|
@@ -115,7 +115,7 @@ npm run dev
 
 ---
 
-## 💳 Payment Gateways
+##  Payment Gateways
 
 ### eSewa (Sandbox)
 - Merchant Code: `EPAYTEST`
@@ -128,7 +128,7 @@ npm run dev
 
 ---
 
-## 🤖 AI Scoring
+##  AI Scoring
 
 ### Option A: Local Free (Recommended) — Ollama + Qwen
 
@@ -166,7 +166,7 @@ If neither Ollama nor OpenAI is available, a **rule-based scorer** activates aut
 
 ---
 
-## 📡 Key API Endpoints
+##  Key API Endpoints
 
 | Method | Path                             | Description                   |
 |--------|----------------------------------|-------------------------------|
