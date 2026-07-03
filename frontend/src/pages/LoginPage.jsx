@@ -48,13 +48,13 @@ export default function LoginPage() {
   const inputStyle = (name) => ({
     width: '100%',
     padding: '11px 14px 11px 40px',
-    border: `1.5px solid ${focused === name ? '#16a34a' : '#e5e5e5'}`,
+    border: `1.5px solid ${focused === name ? '#CC0000' : '#e5e5e5'}`,
     borderRadius: 8,
     fontSize: 14,
     color: '#1a1a1a',
     background: '#fff',
     outline: 'none',
-    boxShadow: focused === name ? '0 0 0 3px rgba(22,163,74,0.12), 0 2px 8px rgba(0,0,0,0.04)' : '0 1px 3px rgba(0,0,0,0.02)',
+    boxShadow: focused === name ? '0 0 0 3px rgba(204,0,0,0.12), 0 2px 8px rgba(0,0,0,0.04)' : '0 1px 3px rgba(0,0,0,0.02)',
     transition: 'border-color 0.18s, box-shadow 0.18s',
     boxSizing: 'border-box'})
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
     left: 13,
     top: '50%',
     transform: 'translateY(-50%)',
-    color: focused === name ? '#16a34a' : '#bbb',
+    color: focused === name ? '#CC0000' : '#bbb',
     display: 'flex',
     alignItems: 'center',
     pointerEvents: 'none',
@@ -85,7 +85,7 @@ export default function LoginPage() {
         }
         .login-submit:disabled { opacity: 0.65; cursor: not-allowed; }
         .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #bbb; display: flex; align-items: center; padding: 4px; transition: color 0.18s; }
-        .eye-btn:hover { color: #16a34a; }
+        .eye-btn:hover { color: #CC0000; }
         .login-submit:hover:not(:disabled) { transform: translateY(-1px); }
         .login-submit:active:not(:disabled) { transform: translateY(0px); }
         .demo-box { margin-top: 14px; padding: 11px 14px; background: #fafafa; border: 1px solid #f0f0f0; border-radius: 8px; font-size: 11px; color: #aaa; text-align: center; line-height: 1.8; }
@@ -99,7 +99,7 @@ export default function LoginPage() {
           <div style={{
             display: 'inline-block',
             fontSize: 10, fontWeight: 700, letterSpacing: '1.8px',
-            textTransform: 'uppercase', color: '#16a34a', marginBottom: 8}}>Welcome back</div>
+            textTransform: 'uppercase', color: '#CC0000', marginBottom: 8}}>Welcome back</div>
           <h2 style={{
             
             fontSize: 24, fontWeight: 900,
@@ -113,7 +113,7 @@ export default function LoginPage() {
         <div style={{
           borderRadius: 10,
           border: '1.5px solid #f0f0f0',
-          borderTop: '3px solid #16a34a',
+          borderTop: '3px solid #CC0000',
           padding: '24px 20px',
           marginBottom: 20,
           background: '#fff'}}>
@@ -181,11 +181,11 @@ export default function LoginPage() {
             <button type="submit" disabled={loading}
               className="login-submit"
               style={{
-                background: checks.every(c => c.ok) ? '#16a34a' : '#CC0000',
-                boxShadow: checks.every(c => c.ok) ? '0 4px 16px rgba(22,163,74,0.28)' : '0 4px 16px rgba(204,0,0,0.28)',
+                background: '#CC0000',
+                boxShadow: '0 4px 16px rgba(204,0,0,0.28)',
               }}
-              onMouseEnter={e => { if (!loading && checks.every(c => c.ok)) { e.target.style.background = '#15803d'; e.target.style.boxShadow = '0 6px 22px rgba(22,163,74,0.35)' } }}
-              onMouseLeave={e => { if (checks.every(c => c.ok)) { e.target.style.background = '#16a34a'; e.target.style.boxShadow = '0 4px 16px rgba(22,163,74,0.28)' } else { e.target.style.background = '#CC0000'; e.target.style.boxShadow = '0 4px 16px rgba(204,0,0,0.28)' } }}
+              onMouseEnter={e => { if (!loading) { e.target.style.background = '#b30000'; e.target.style.boxShadow = '0 6px 22px rgba(204,0,0,0.35)' } }}
+              onMouseLeave={e => { e.target.style.background = '#CC0000'; e.target.style.boxShadow = '0 4px 16px rgba(204,0,0,0.28)' }}
             >
               {loading ? <Spinner size={18} className="text-white" /> : 'Sign In'}
             </button>

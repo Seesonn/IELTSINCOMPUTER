@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import { Shield, RefreshCw, ArrowLeft } from 'lucide-react'
+import { Mail, Shield, RefreshCw } from 'lucide-react'
 import useAuthStore from '../store/authStore'
 import toast from 'react-hot-toast'
 import { Spinner } from '../components/ui'
@@ -16,7 +16,9 @@ export default function OTPPage() {
   const email = sessionStorage.getItem('pendingEmail') || pendingEmail || location.state?.email || ''
 
   useEffect(() => {
-    if (!email) navigate('/register')
+    if (!email) {
+      navigate('/register')
+    }
   }, [email, navigate])
 
   useEffect(() => {
@@ -32,35 +34,21 @@ export default function OTPPage() {
     const newOtp = [...otp]
     newOtp[index] = value.slice(-1)
     setOtp(newOtp)
-    if (value && index < 5) inputRefs.current[index + 1]?.focus()
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus()
+    }
   }
 
   const handleKeyDown = (index, e) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus()
     }
-    if (e.key === 'Enter') handleSubmit(e)
   }
 
-  const handlePaste = useCallback((e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
-    if (!pasted) return
-    const newOtp = [...otp]
-    for (let i = 0; i < pasted.length; i++) newOtp[i] = pasted[i]
-    setOtp(newOtp)
-    const nextIndex = Math.min(pasted.length, 5)
-    inputRefs.current[nextIndex]?.focus()
-    if (pasted.length === 6) {
-      setTimeout(() => handleSubmit(e, pasted), 100)
-    }
-  }, [otp])
-
-  const handleSubmit = async (e, codeOverride) => {
-    if (e) e.preventDefault()
-    const code = codeOverride || otp.join('')
+    const code = otp.join('')
     if (code.length !== 6) { toast.error('Please enter the full 6-digit code'); return }
-    if (!email) { toast.error('Session expired. Please register again.'); navigate('/register'); return }
     const res = await verifyOtp(email, code)
     if (res.success) {
       sessionStorage.removeItem('pendingEmail')
@@ -68,16 +56,13 @@ export default function OTPPage() {
       navigate('/dashboard')
     } else {
       toast.error(res.error)
-      setOtp(['', '', '', '', '', ''])
-      inputRefs.current[0]?.focus()
     }
   }
 
   const handleResend = async () => {
-    if (!email) return
     const res = await resendOtp(email)
     if (res.success) {
-      toast.success('New code sent!')
+      toast.success('New OTP sent to your email')
       setTimer(60)
       setCanResend(false)
       setOtp(['', '', '', '', '', ''])
@@ -89,20 +74,16 @@ export default function OTPPage() {
 
   if (!email) return null
 
-  const allFilled = otp.every(d => d !== '')
-
   return (
     <div className="page-fade">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
         .otp-wrap { font-family: 'Quicksand', sans-serif; }
-        .otp-label { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; text-align: center; }
+        .otp-label { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
         .otp-input {
           width: 44px; height: 50px; text-align: center; font-size: 20px; font-weight: 700;
           border: 1.5px solid #e5e5e5; border-radius: 8px; outline: none;
-          color: #1a1a1a; background: #fff;
-          transition: border-color 0.18s, box-shadow 0.18s;
-          font-family: 'Quicksand', sans-serif;
+          color: #1a1a1a; background: #fff; transition: border-color 0.18s, box-shadow 0.18s;
         }
         .otp-input:focus { border-color: #CC0000; box-shadow: 0 0 0 3px rgba(204,0,0,0.08); }
         .otp-submit {
@@ -122,41 +103,34 @@ export default function OTPPage() {
         <div style={{ marginBottom: 28, textAlign: 'center' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            width: 52, height: 52, borderRadius: '50%', background: '#fff0f0',
-            marginBottom: 14
+            width: 48, height: 48, borderRadius: '50%', background: '#fff0f0',
+            marginBottom: 12
           }}>
-            <Shield size={24} color="#CC0000" />
+            <Shield size={22} color="#CC0000" />
           </div>
           <h2 style={{
             fontSize: 22, fontWeight: 900,
-            color: '#1a1a1a', lineHeight: 1.2, margin: '0 0 6px'
-          }}>Verify your email</h2>
-          <p style={{ fontSize: 13, color: '#999', margin: 0, lineHeight: 1.6 }}>
-            We sent a 6-digit code to<br />
-            <strong style={{ color: '#1a1a1a' }}>{email}</strong>
+            color: '#1a1a1a', lineHeight: 1.2, margin: '0 0 6px'}}>Verify your email</h2>
+          <p style={{ fontSize: 13, color: '#999', margin: 0 }}>
+            We sent a 6-digit code to <strong style={{ color: '#1a1a1a' }}>{email}</strong>
           </p>
         </div>
 
         <div style={{
           borderRadius: 10, border: '1.5px solid #f0f0f0',
-          borderTop: '3px solid #CC0000', padding: '24px 20px',
-          marginBottom: 16, background: '#fff'
+          borderTop: '3px solid #CC0000', padding: '24px 20px', marginBottom: 16, background: '#fff'
         }}>
           <form onSubmit={handleSubmit}>
-            <label className="otp-label" style={{ marginBottom: 14 }}>
+            <label className="otp-label" style={{ textAlign: 'center', marginBottom: 16 }}>
               Enter verification code
             </label>
-            <div
-              style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20 }}
-              onPaste={handlePaste}
-            >
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
               {otp.map((digit, i) => (
                 <input
                   key={i}
                   ref={el => inputRefs.current[i] = el}
                   type="text"
                   inputMode="numeric"
-                  autoComplete="one-time-code"
                   maxLength={1}
                   value={digit}
                   onChange={e => handleChange(i, e.target.value)}
@@ -164,17 +138,11 @@ export default function OTPPage() {
                   onFocus={e => e.target.select()}
                   className="otp-input"
                   autoFocus={i === 0}
-                  aria-label={`Digit ${i + 1}`}
                 />
               ))}
             </div>
 
-            <button
-              type="submit"
-              disabled={loading || !allFilled}
-              className="otp-submit"
-              style={{ opacity: !allFilled ? 0.5 : undefined }}
-            >
+            <button type="submit" disabled={loading} className="otp-submit">
               {loading ? <Spinner size={18} className="text-white" /> : 'Verify Email'}
             </button>
           </form>
@@ -189,8 +157,7 @@ export default function OTPPage() {
               style={{
                 background: 'none', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                fontSize: 13, fontWeight: 600, color: '#CC0000',
-                fontFamily: "'Quicksand', sans-serif", padding: 0,
+                fontSize: 13, fontWeight: 600, color: '#CC0000', fontFamily: 'Quicksand, sans-serif'
               }}
             >
               <RefreshCw size={14} />
@@ -203,20 +170,16 @@ export default function OTPPage() {
           )}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 14 }}>
-          <Link
-            to="/register"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 4,
-              fontSize: 12, color: '#999', textDecoration: 'none',
-              fontFamily: "'Quicksand', sans-serif",
-            }}
-          >
-            <ArrowLeft size={13} />
-            Use a different email
-          </Link>
+        <div style={{ textAlign: 'center', marginTop: 12 }}>
+          <p style={{ fontSize: 12, color: '#999', margin: 0 }}>
+            Wrong email?{' '}
+            <Link to="/register" style={{ color: '#CC0000', fontWeight: 600, textDecoration: 'none' }}>
+              Create a new account
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   )
 }
+

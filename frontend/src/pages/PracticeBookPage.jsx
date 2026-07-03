@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Book, ChevronRight, Award, BookOpen, TrendingUp, Lock } from 'lucide-react'
-import useAuthStore from '../store/authStore'
+import { Book, ChevronRight, Award, BookOpen, TrendingUp, Shuffle, Zap } from 'lucide-react'
 import logo from '../assets/ielts.png'
 
 const BOOKS = Array.from({ length: 20 }, (_, i) => ({
@@ -17,31 +16,6 @@ const STATS = [
 ]
 
 export default function PracticeBookPage() {
-  const { user } = useAuthStore()
-
-  if (user?.plan === 'free') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto p-8">
-          <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-5">
-            <Lock size={28} className="text-red-700" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Premium Access Required</h2>
-          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-            Practice books are available exclusively for Premium users. Upgrade your plan to unlock all 20 books with 80 full IELTS tests.
-          </p>
-          <Link
-            to="/pricing"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-bold text-white transition-all hover:-translate-y-0.5"
-            style={{ background: '#CC0000' }}
-          >
-            Upgrade to Premium <ChevronRight size={15} />
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div
       className="min-h-screen overflow-x-hidden"
@@ -82,12 +56,43 @@ export default function PracticeBookPage() {
           </div>
         </div>
 
+        {/* ── Random Mock Test CTA ── */}
+        <Link
+          to="/mock-test"
+          className="group block overflow-hidden border border-gray-100 hover:shadow-md transition-all"
+          style={{ background: 'linear-gradient(135deg, #fef2f2 0%, #fff 100%)' }}
+        >
+          <div className="flex items-center gap-5 px-5 sm:px-7 py-5">
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+              style={{ background: 'linear-gradient(135deg, #CC0000, #ff4d4d)' }}
+            >
+              <Shuffle size={22} className="text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-xs font-bold text-red-600 uppercase tracking-widest">Mock T</span>
+                <Zap size={12} className="text-red-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-red-700 transition-colors">
+                Random Test
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 leading-relaxed">
+                Let us pick a surprise module and test for you — no overthinking, just practice.
+              </p>
+            </div>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white border border-gray-200 transition-all duration-300 group-hover:bg-red-50 group-hover:border-red-200 group-hover:-translate-y-0.5">
+              <ChevronRight size={14} className="text-gray-400 group-hover:text-red-600 transition-colors" />
+            </div>
+          </div>
+        </Link>
+
         {/* ── Stats row ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {STATS.map(({ icon: Icon, label, value, accent, bg }) => (
             <div key={label} className="bg-white  border border-gray-100 p-4 sm:p-5 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
-                <Icon size={16} color="#002147" />
+                <Icon size={16} color={accent} />
                 <span className="text-[10px] sm:text-xs font-semibold text-gray-400 text-right leading-tight max-w-[60px] sm:max-w-[70px]">
                   {label}
                 </span>
@@ -109,7 +114,7 @@ export default function PracticeBookPage() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
             {BOOKS.map((book, idx) => {
-            const covers = ['#002147', '#1a3a6b', '#2a5298', '#CC0000', '#8B0000']
+            const covers = ['#CC0000', '#B22222', '#A52A2A', '#8B0000', '#DC143C']
             const coverColor = covers[idx % covers.length]
 
             return (
@@ -146,7 +151,7 @@ export default function PracticeBookPage() {
                       zIndex: 1}}>
                       {/* Spine */}
                       <div className="absolute left-0 top-0 bottom-0 w-[10px] z-10"
-                        style={{
+                       style={{
                           background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.08) 60%, transparent 100%)'}}
                       />
                       <div className="absolute left-[10px] top-2 bottom-2 w-[1px] bg-black/10" />
