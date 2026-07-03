@@ -87,7 +87,7 @@ export default function MainLayout() {
               {user?.full_name}
             </p>
             <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded mt-0.5 ${planBadge[user?.plan || 'free']}`}>
-              {(user?.plan === 'premium' || user?.plan === 'enterprise') ? '⭐ ' : ''}
+              {user?.plan === 'premium' ? '⭐ ' : ''}
               {user?.plan === 'enterprise' ? 'ENTERPRISE' : user?.plan?.toUpperCase() || 'FREE'}
             </span>
           </div>

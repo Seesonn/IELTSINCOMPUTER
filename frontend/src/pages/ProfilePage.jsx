@@ -490,7 +490,7 @@ export default function ProfilePage() {
             <span
               className={`inline-block text-xs font-semibold px-2 py-0.5 rounded ${planStyle[user?.plan || 'free']}`}
             >
-              {(user?.plan === 'premium' || user?.plan === 'enterprise') ? '⭐ ' : ''}
+              {user?.plan === 'premium' ? '⭐ ' : ''}
               {user?.plan === 'enterprise' ? 'ENTERPRISE' : user?.plan?.toUpperCase() || 'FREE'} PLAN
             </span>
             {user?.plan === 'free' && (

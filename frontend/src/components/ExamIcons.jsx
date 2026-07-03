@@ -1,7 +1,7 @@
 export function ReadingIcon({ size = 24, color = '#002147', ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="2" y="4" width="20" height="16" rx="2" fill="white" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+      <rect x="2" y="4" width="20" height="16" rx="2" fill={color} fillOpacity="0.15" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
       <path d="M12 5v14" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
       <line x1="6" y1="8" x2="10" y2="8" stroke={color} strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />
       <line x1="6" y1="11" x2="10" y2="11" stroke={color} strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />

@@ -1,5 +1,6 @@
 import { cn } from '../../utils/helpers'
 import { Loader2 } from 'lucide-react'
+import { cloneElement } from 'react'
 
 export function Spinner({ size = 20, className }) {
   return <Loader2 size={size} className={cn('animate-spin text-brand-500', className)} />
@@ -102,45 +103,52 @@ export function StatCard({ label, value, sub, icon, color = 'text-brand-600' }) 
   )
 }
 
-export function StartOverlay({ onStart, moduleName = 'Test', icon }) {
+export function StartOverlay({ onStart, onClose, moduleName = 'Test', icon }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        background: 'rgba(0, 0, 0, 0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        background: 'rgba(0, 0, 0, 0.85)',
       }}>
       <div
-        className="relative text-center max-w-[280px] mx-4 w-full"
+        className="relative text-center max-w-[320px] mx-4 w-full px-6"
         style={{ animation: 'fadeUp 0.4s ease both' }}
       >
-        <div className="bg-white rounded-xl px-6 py-7"
+        {onClose && (
+          <button onClick={onClose} className="absolute -top-2 right-0 text-white/40 hover:text-white/80 transition-colors text-xl leading-none">✕</button>
+        )}
+        {icon && (
+          <div className="flex justify-center mb-6">
+            <div className="w-28 h-28 flex items-center justify-center rounded-full bg-black/20">
+              {cloneElement(icon, { size: 80, color: '#ffffff' })}
+            </div>
+          </div>
+        )}
+
+        <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">
+          {moduleName} Test
+        </h3>
+
+        <p className="text-sm text-white/50 mb-8 leading-relaxed max-w-[260px] mx-auto">
+          You have limited time. Make sure you are ready before starting.
+        </p>
+
+        <button
+          onClick={onStart}
+          className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-white text-xs font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]"
           style={{
-            boxShadow: '0 20px 48px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06)',
-          }}>
-          <div className="flex justify-center mb-3">{icon}</div>
-          <h3 className="text-base font-bold text-gray-900 mb-1">
-            {moduleName} Test
-          </h3>
-          <p className="text-xs text-gray-400 mb-5 leading-relaxed">
-            You have limited time. Make sure you are ready before starting.
-          </p>
-          <button
-            onClick={onStart}
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-white text-xs font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]"
-            style={{
-              background: 'linear-gradient(135deg, #CC0000, #ff1a1a)',
-              boxShadow: '0 4px 12px rgba(204, 0, 0, 0.3)',
-            }}
-          >
-            Start Test
-          </button>
-        </div>
+            background: 'linear-gradient(135deg, #CC0000, #ff1a1a)',
+            boxShadow: '0 4px 12px rgba(204, 0, 0, 0.3)',
+          }}
+        >
+          Start
+        </button>
       </div>
 
       <style>{`
         @keyframes fadeUp {
-          0% { opacity: 0; transform: translateY(16px) scale(0.95); }
+          0% { opacity: 0; transform: translateY(20px) scale(0.95); }
           100% { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>

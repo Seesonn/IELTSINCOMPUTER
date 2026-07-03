@@ -4,6 +4,7 @@ import { testsApi, submissionsApi, sessionsApi } from '../utils/api'
 import { mockTestProgress } from '../utils/mockTestProgress'
 import { useTimer } from '../hooks/useTimer'
 import { LoadingScreen, StartOverlay } from '../components/ui'
+import { WritingIcon } from '../components/ExamIcons'
 import toast from 'react-hot-toast'
 import { wordCount } from '../utils/helpers'
 import logo from '../assets/hu.png'
@@ -212,7 +213,7 @@ export default function WritingPage() {
 
   return (
     <>
-      {!started && !isMockTest && <StartOverlay onStart={() => setStarted(true)} moduleName="Writing" />}
+      {!started && !isMockTest && <StartOverlay onStart={() => setStarted(true)} moduleName="Writing" icon={<WritingIcon />} />}
       <div style={{fontFamily:"Arial, sans-serif",height:"100vh",display:"flex",flexDirection:"column",background:"#fff",fontSize:15,color:"#000"}}>
 
         {/* ═══ TOP BAR ═══ */}

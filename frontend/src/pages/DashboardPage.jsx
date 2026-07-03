@@ -303,7 +303,7 @@ export default function DashboardPage() {
                   user?.plan === 'enterprise' ? 'bg-green-50 text-green-700 border border-green-200' :
                   'bg-gray-100 text-gray-500'
                 }`}>
-                  {(user?.plan === 'premium' || user?.plan === 'enterprise') ? '⭐ ' : ''}
+                  {user?.plan === 'premium' ? '⭐ ' : ''}
                   {user?.plan?.toUpperCase() || 'FREE'} PLAN
                 </span>
               </div>
