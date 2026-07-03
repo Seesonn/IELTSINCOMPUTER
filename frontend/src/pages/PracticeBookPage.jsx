@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Book, ChevronRight, Award, BookOpen, TrendingUp, Shuffle, Zap } from 'lucide-react'
+import { Book, ChevronRight, Award, BookOpen, TrendingUp } from 'lucide-react'
 import logo from '../assets/ielts.png'
 
 const BOOKS = Array.from({ length: 20 }, (_, i) => ({
@@ -55,37 +55,6 @@ export default function PracticeBookPage() {
             </Link>
           </div>
         </div>
-
-        {/* ── Random Mock Test CTA ── */}
-        <Link
-          to="/mock-test"
-          className="group block overflow-hidden border border-gray-100 hover:shadow-md transition-all"
-          style={{ background: 'linear-gradient(135deg, #fef2f2 0%, #fff 100%)' }}
-        >
-          <div className="flex items-center gap-5 px-5 sm:px-7 py-5">
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
-              style={{ background: 'linear-gradient(135deg, #CC0000, #ff4d4d)' }}
-            >
-              <Shuffle size={22} className="text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-xs font-bold text-red-600 uppercase tracking-widest">Mock T</span>
-                <Zap size={12} className="text-red-400" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-red-700 transition-colors">
-                Random Test
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 leading-relaxed">
-                Let us pick a surprise module and test for you — no overthinking, just practice.
-              </p>
-            </div>
-            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white border border-gray-200 transition-all duration-300 group-hover:bg-red-50 group-hover:border-red-200 group-hover:-translate-y-0.5">
-              <ChevronRight size={14} className="text-gray-400 group-hover:text-red-600 transition-colors" />
-            </div>
-          </div>
-        </Link>
 
         {/* ── Stats row ── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
@@ -163,40 +132,37 @@ export default function PracticeBookPage() {
                       {/* Cover content */}
                       <div className="flex flex-col h-full" style={{ marginLeft: 3 }}>
                         {/* Top white brand band */}
-                        <div className="bg-white/95 px-4 py-2.5 flex flex-col items-center justify-center" style={{ minHeight: '28%' }}>
-                          <img src={logo} alt="IELTS" className="h-5 sm:h-6 w-auto object-contain" />
-                          <p className="text-[7px] font-bold tracking-wider text-gray-400 mt-1">
+                        <div className="bg-white/95 px-3 py-2 flex flex-col items-center justify-center shrink-0">
+                          <img src={logo} alt="IELTS" className="h-4 sm:h-5 w-auto object-contain" />
+                          <p className="text-[6px] font-bold tracking-wider text-gray-400 mt-0.5">
                             PRACTICE BOOKS
                           </p>
                         </div>
 
                         {/* Colored accent band */}
-                        <div className="h-[5px] bg-white/30" />
+                        <div className="h-[3px] bg-white/30 shrink-0" />
 
                         {/* Main content area */}
-                        <div className="flex-1 flex flex-col items-center justify-center px-4 text-center" style={{ minHeight: '55%' }}>
-                          <span
-                            className="text-4xl sm:text-5xl font-extrabold leading-none text-white drop-shadow-sm"
-                            
-                          >
+                        <div className="flex-1 flex flex-col items-center justify-center px-3 text-center min-h-0">
+                          <span className="text-3xl sm:text-4xl font-extrabold leading-none text-white drop-shadow-sm">
                             {String(book.id).padStart(2, '0')}
                           </span>
 
-                          <div className="w-8 h-[1px] my-2 bg-white/30" />
+                          <div className="w-6 h-[1px] my-1.5 bg-white/30" />
 
-                          <p className="text-[9px] font-bold uppercase tracking-wider text-white/90">
+                          <p className="text-[8px] font-bold uppercase tracking-wider text-white/90">
                             IELTS Academic
                           </p>
 
-                          <p className="text-[8px] text-white/60 mt-1 leading-relaxed max-w-[90px]">
-                            {book.tests} Practice Tests with Answers
+                          <p className="text-[7px] text-white/60 mt-1 leading-relaxed">
+                            {book.tests} Practice Tests
                           </p>
                         </div>
 
                         {/* Bottom strip */}
-                        <div className="border-t border-white/20 px-4 py-1.5">
-                          <p className="text-[6px] text-white/40 tracking-wider text-center">
-                            ieltsprep.com
+                        <div className="border-t border-white/20 px-3 py-1 shrink-0">
+                          <p className="text-[5px] text-white/40 tracking-wider text-center">
+                            ieltsincomputer.com
                           </p>
                         </div>
                       </div>

@@ -31,7 +31,7 @@ const sections = [
   {
     icon: Mail,
     title: "Contact Us",
-    content: 'If you have questions about this policy or wish to exercise your data rights, email us at support@ieltsprep.com or visit our Contact page. We respond to all privacy inquiries within 72 hours.',
+    content: 'If you have questions about this policy or wish to exercise your data rights, email us at support@ieltsincomputer.com or visit our Contact page. We respond to all privacy inquiries within 72 hours.',
   },
 ]
 

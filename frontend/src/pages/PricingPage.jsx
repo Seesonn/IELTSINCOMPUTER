@@ -99,7 +99,7 @@ export default function PricingPage() {
     { icon: '●', label: 'Secure Payment',  sub: 'SSL Encrypted' },
     { icon: '●', label: 'Nepal Payment',  sub: 'eSewa & Khalti' },
     { icon: '●', label: 'Instant Access',  sub: 'After payment' },
-    { icon: '●', label: 'Support',         sub: 'team@ieltsprep.com' },
+    { icon: '●', label: 'Support',         sub: 'team@ieltsincomputer.com' },
   ]
 
   return (

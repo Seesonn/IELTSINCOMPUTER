@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: "How do I contact support?",
-    a: "Visit our Contact page or email support@ieltsprep.com. We typically respond within 24 hours on weekdays.",
+    a: "Visit our Contact page or email support@ieltsincomputer.com. We typically respond within 24 hours on weekdays.",
   },
 ]
 

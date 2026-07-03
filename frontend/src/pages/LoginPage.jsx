@@ -231,7 +231,7 @@ export default function LoginPage() {
 
         {/* Demo box */}
         {/* <div className="demo-box">
-          Demo · <code>demo@ieltsprep.com</code> / <code>demo123456</code>
+          Demo · <code>demo@ieltsincomputer.com</code> / <code>demo123456</code>
         </div> */}
 
       </div>

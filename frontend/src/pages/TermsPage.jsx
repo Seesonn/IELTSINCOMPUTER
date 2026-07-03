@@ -31,7 +31,7 @@ const sections = [
   {
     icon: Mail,
     title: "Contact & Disputes",
-    content: 'Any disputes shall be governed by the laws of Nepal. For questions or concerns regarding these terms, contact us at support@ieltsprep.com or through our Contact page. We aim to resolve all disputes informally within 14 days.',
+    content: 'Any disputes shall be governed by the laws of Nepal. For questions or concerns regarding these terms, contact us at support@ieltsincomputer.com or through our Contact page. We aim to resolve all disputes informally within 14 days.',
   },
 ]
 

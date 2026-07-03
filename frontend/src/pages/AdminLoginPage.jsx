@@ -128,7 +128,7 @@ export default function AdminLoginPage() {
                   onFocus={() => setFocused('email')}
                   onBlur={() => setFocused('')}
                   style={inputStyle('email')}
-                  placeholder="admin@ieltsprep.com"
+                  placeholder="admin@ieltsincomputer.com"
                 />
               </div>
             </div>

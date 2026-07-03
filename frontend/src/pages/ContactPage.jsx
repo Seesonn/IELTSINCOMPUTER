@@ -5,7 +5,7 @@ import { Mail, MapPin, Phone, Send, MessageSquare, AlertTriangle, ImageUp, X, Ch
 import { contactApi } from '../utils/api'
 
 const contactInfo = [
-  { icon: Mail,   label: "Email",   value: "support@ieltsprep.com",   href: "mailto:support@ieltsprep.com" },
+  { icon: Mail,   label: "Email",   value: "support@ieltsincomputer.com",   href: "mailto:support@ieltsincomputer.com" },
   { icon: Phone,  label: "Phone",   value: "+977-980-1234567",        href: "tel:+9779801234567" },
   { icon: MapPin, label: "Address", value: "Itahari, Sunsari, Nepal", href: null },
 ]
