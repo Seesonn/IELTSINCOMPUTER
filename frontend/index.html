@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IELTSPrep — Practice, Improve & Achieve</title>
+    <meta name="description" content="Nepal's most comprehensive IELTS practice platform with AI-powered scoring." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      (function() {
+        document.addEventListener('contextmenu', function(e) { e.preventDefault() })
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) || (e.ctrlKey && e.key.toUpperCase() === 'U')) {
+            e.preventDefault()
+          }
+          if ((e.ctrlKey || e.metaKey) && ['C','V','X','P'].includes(e.key.toUpperCase())) e.preventDefault()
+        })
+        document.addEventListener('copy', function(e) { e.preventDefault() })
+        document.addEventListener('cut', function(e) { e.preventDefault() })
+        document.addEventListener('paste', function(e) { e.preventDefault() })
+        document.addEventListener('visibilitychange', function() {
+          if (document.hidden) document.title = '⚠️ Stay on test'
+        })
+        window.addEventListener('blur', function() {
+          document.title = '⚠️ Stay focused'
+        })
+        setInterval(function() {
+          if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+            document.title = '⚠️ DevTools Detected'
+            ;(function(){debugger;return false;}).call(null)
+          }
+        }, 2000)
+      })()
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

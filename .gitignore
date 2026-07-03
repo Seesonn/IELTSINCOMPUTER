@@ -1,0 +1,27 @@
+.venv
+.env
+node_modules
+dist
+
+# Python
+__pycache__/
+*.pyc
+
+# Log files
+*.log
+
+# OS artifacts
+*.stackdump
+cookies.txt
+nul
+Thumbs.db
+.DS_Store
+
+# Local dev databases
+*.db
+
+# Vite temp files
+*.timestamp-*.mjs
+
+# Editor temp files
+Untitled
