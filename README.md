@@ -110,7 +110,7 @@ npm run dev
 
 | Role    | Email                  | Password    |
 |---------|------------------------|-------------|
-| Admin   | admin@ieltsprep.com    | admin123456 |
+| Admin   | admin@gmail.com.       |something|
 | Student | demo@ieltsprep.com     | demo123456  |
 
 ---
